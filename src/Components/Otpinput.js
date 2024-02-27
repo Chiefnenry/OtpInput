@@ -63,9 +63,7 @@ const Otpinput = ({ length = 6 }) => {
           ))}
         </p>
       </div>
-      <div className="">
-        <strong>Done</strong>
-      </div>
+     
      
     </div>
   );
