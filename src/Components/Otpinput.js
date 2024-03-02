@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 
-const Otpinput = ({ length = 6 }) => {
-  const [otp, setOTP] = useState(new Array(length).fill(""));
-  const inputRefs = useRef(Array(length).fill(null));
+const OtpInput = () => {
+  const [verificationCode, setVerificationCode] = useState('');
+  const [otp, setOTP] = useState(new Array(6).fill(''));
+  const inputRefs = useRef(Array(6).fill(null));
 
   const focusInput = (index) => {
     if (inputRefs.current[index] && inputRefs.current[index].focus) {
@@ -14,9 +15,10 @@ const Otpinput = ({ length = 6 }) => {
     const newOTP = [...otp];
     newOTP[index] = value;
     setOTP(newOTP);
-    if (index < length - 1 && value !== "") {
+    if (index < 5 && value !== "") {
       focusInput(index + 1);
     }
+    setVerificationCode(newOTP.join(''));
   };
 
   const handleKeyDown = (index, e) => {
@@ -25,48 +27,83 @@ const Otpinput = ({ length = 6 }) => {
       newOTP[index - 1] = "";
       setOTP(newOTP);
       focusInput(index - 1);
+      setVerificationCode(newOTP.join(''));
     }
   };
 
   const handlePaste = (e) => {
     e.preventDefault();
-    const pastedData = e.clipboardData.getData("text/plain").slice(0, length);
+    const pastedData = e.clipboardData.getData("text/plain").slice(0, 6);
     const newOTP = [...otp];
     for (let i = 0; i < pastedData.length; i++) {
       newOTP[i] = pastedData[i];
     }
     setOTP(newOTP);
+    setVerificationCode(newOTP.join(''));
     focusInput(pastedData.length);
   };
 
-  return (
-    <div className="bg-black h-svh">
-      <div className="flex justify-center pt-80 items-center">
-        {otp.map((value, index) => (
-          <input
-            key={index}
-            ref={(input) => (inputRefs.current[index] = input)}
-            style={{ animationDelay: ` ${index * 2}s` }}
-            className="w-12 h-12 customInput text-center bg-transparent focus:outline-none rounded"
-            type="text"
-            maxLength={1}
-            value={value}
-            onChange={(e) => handleChange(index, e.target.value)}
-            onKeyDown={(e) => handleKeyDown(index, e)}
-            onPaste={handlePaste}
-          />
-        ))}
+  const handleVerification = () => {
+    // Simulate verification logic
+    if (verificationCode === "123456") {
+      console.log("Verification successful!");
+    } else {
+      console.log("Verification failed!");
+    }
+  };
 
-        <p className="text-white">
+  const handleResend = () => {
+    // Simulate resend logic
+    console.log("Resending code...");
+    // Reset OTP input fields
+    setOTP(new Array(6).fill(''));
+    // Reset verification code
+    setVerificationCode('');
+    // Focus on the first input field
+    focusInput(0);
+  };
+
+  return (
+    <div className="h-screen flex justify-center items-center">
+      <div className="bg-white p-8">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold">Verify</h1>
+          <p>Your code was sent to you via phone</p>
+        </div>
+
+        <div className="flex justify-center items-center">
           {otp.map((value, index) => (
-            <em>{value}</em>
+            <input
+              key={index}
+              ref={(input) => (inputRefs.current[index] = input)}
+              className="w-12 h-12 m-2 text-center border rounded focus:outline-none"
+              type="text"
+              maxLength={1}
+              value={value}
+              onChange={(e) => handleChange(index, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(index, e)}
+              onPaste={handlePaste}
+            />
           ))}
-        </p>
+        </div>
+
+        <div className="text-center pt-4">
+          <button
+            className="bg-blue-900 text-white px-4 py-2 rounded mr-4"
+            onClick={handleVerification}
+          >
+            Verify
+          </button>
+          <button
+            className="text-blue-500 underline"
+            onClick={handleResend}
+          >
+            Request again
+          </button>
+        </div>
       </div>
-     
-     
     </div>
   );
 };
 
-export default Otpinput;
+export default OtpInput;

@@ -42,14 +42,13 @@
 
 .customInput {
   border: 1px solid #ffffff27;
-  color: white;
   transition: all;
   transition-duration: 0.5s;
   transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 1.045);
 }
 
 .customInput:focus {
-  border-color: white;
+  border-color: #000;
   border-width: 4px;
 }
 
