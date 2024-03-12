@@ -46,6 +46,7 @@ const OtpInput = () => {
   const handleVerification = () => {
     // Simulate verification logic
     if (verificationCode === "123456") {
+      alert('successfully verified')
       console.log("Verification successful!");
     } else {
       console.log("Verification failed!");
@@ -59,6 +60,7 @@ const OtpInput = () => {
     setOTP(new Array(6).fill(''));
     // Reset verification code
     setVerificationCode('');
+    alert('Resending')
     // Focus on the first input field
     focusInput(0);
   };
