@@ -76,7 +76,7 @@ const OtpInput = () => {
             <input
               key={index}
               ref={(input) => (inputRefs.current[index] = input)}
-              className="w-12 h-12 m-2 text-center border rounded focus:outline-none"
+              className="w-12 h-12 m-2 text-center border rounded customInput focus:outline-none"
               type="text"
               maxLength={1}
               value={value}
